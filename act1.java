@@ -4,6 +4,7 @@ public class Act1 {
     }
 
     public static void cifrar(byte[][] m, byte[] v, int numPasadas) {
+
         int filas = m.length;
         int columnas = m[0].length;
         for (int pasada = 0; pasada < numPasadas; pasada++) {
@@ -20,6 +21,14 @@ public class Act1 {
             }
         }
     }
+
+    
+
+    public static void generarDVs (int NF, int NC, int NV, int TP, int numPasadas, String nombreArchivo) {
+
+    }
+
+    
 }
 
 
