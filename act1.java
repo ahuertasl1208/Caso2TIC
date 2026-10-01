@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.IOException;
+import java.lang.Math;
+
 public class Act1 {
     public static void main(String[] args) {
         // Entry point for running this class.
@@ -17,6 +21,9 @@ public class Act1 {
 
         for (int j = 0; j < columnas; j++) {
             for (int i = 0; i < filas; i++) {
+                // 3 acceos a memoria
+                // 2 de lectura
+                // 1 de escritura
                 m[i][j] = (byte) ((m[i][j] ^ v[i % v.length]) & 0xFF);
             }
         }
@@ -24,8 +31,34 @@ public class Act1 {
 
     
 
-    public static void generarDVs (int NF, int NC, int NV, int TP, int numPasadas, String nombreArchivo) {
+    public static File generarDVs (int NF, int NC, int NV, int TP, int numPasadas, String nombreArchivo) {
+        int numCeldas = NF * NC;
+        // NR: Numero total de accesos. 
+        int NR  = (numCeldas * 3 * 2) * numPasadas;
+        // NP: Numero de paginas virtuales
+        int NP = (int) Math.ceil((numCeldas + TP) /TP);
 
+
+        try {
+            File archivoRetorno = generarArchivo(nombreArchivo);
+            return archivoRetorno;
+        } catch (IOException e) {
+            // Imprimir el stack trace para ver donde hubo error
+            e.printStackTrace();
+        }
+
+
+        return null;
+
+
+    }
+
+    public static File generarArchivo (String nombreArchivo) throws IOException {
+        File archivo = new File(nombreArchivo);
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        return archivo;
     }
 
     
