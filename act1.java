@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.Math;
 
 public class Act1 {
@@ -31,27 +32,37 @@ public class Act1 {
 
     
 
-    public static File generarDVs (int NF, int NC, int NV, int TP, int numPasadas, String nombreArchivo) {
-        int numCeldas = NF * NC;
-        // NR: Numero total de accesos. 
-        int NR  = (numCeldas * 3 * 2) * numPasadas;
-        // NP: Numero de paginas virtuales
-        int NP = (int) Math.ceil((numCeldas + TP) /TP);
+public static File generarDVs (int NF, int NC, int NV, int TP, int numPasadas, String nombreArchivo) {
+    int numCeldas = NF * NC;
+    // NR: Numero total de accesos. 
+    int NR  = (numCeldas * 3 * 2) * numPasadas;
+    // NP: Numero de paginas virtuales
+    // el numero de paginas virtuales se redondea para arriba
+    int NP = (int) Math.ceil((double)(numCeldas + TP) / TP);
 
+    try {
+        
+        File archivoRetorno = generarArchivo(nombreArchivo);
+        
+        try (PrintWriter writer = new PrintWriter(archivoRetorno)) {
+            writer.printf("TP=%d%n", TP);
+            writer.printf("NF1=%d%n", NF); 
+            writer.printf("NV=%d%n", NV);
+            writer.printf("numPasadas=%d%n", numPasadas);
+            writer.printf("NR=%d%n", NR);
+            writer.printf("NP=%d%n", NP);
+        } 
 
-        try {
-            File archivoRetorno = generarArchivo(nombreArchivo);
-            return archivoRetorno;
-        } catch (IOException e) {
-            // Imprimir el stack trace para ver donde hubo error
-            e.printStackTrace();
-        }
-
-
-        return null;
-
-
+        return archivoRetorno;
+        
+    } catch (IOException e) {
+        // Imprimir el stack trace para ver donde hubo error
+        e.printStackTrace();
     }
+
+    return null;
+}
+
 
     public static File generarArchivo (String nombreArchivo) throws IOException {
         File archivo = new File(nombreArchivo);
